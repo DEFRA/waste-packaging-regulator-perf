@@ -1,4 +1,4 @@
-# cdp-perf-test-suite-template
+# waste-packaging-regulator-perf
 
 A JMeter based test runner for the CDP Platform.
 
