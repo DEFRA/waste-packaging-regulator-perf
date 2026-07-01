@@ -1,5 +1,5 @@
 #!/bin/sh
-set -x
+# Note: set -x is intentionally absent — it would print the session cookie to CI logs.
 
 echo "run_id: $RUN_ID in $ENVIRONMENT"
 
@@ -9,47 +9,61 @@ if [ -z "${JM_HOME}" ]; then
   JM_HOME=/opt/perftest
 fi
 
-JM_SCENARIOS=${JM_HOME}/scenarios
 JM_REPORTS=${JM_HOME}/reports
 JM_LOGS=${JM_HOME}/logs
 
 mkdir -p ${JM_REPORTS} ${JM_LOGS}
 
-TEST_SCENARIO=${TEST_SCENARIO:-test}
-SCENARIOFILE=${JM_SCENARIOS}/${TEST_SCENARIO}.jmx
-REPORTFILE=${NOW}-perftest-${TEST_SCENARIO}-report.csv
-LOGFILE=${JM_LOGS}/perftest-${TEST_SCENARIO}.log
+# ── Authentication ─────────────────────────────────────────────────────────────
+# B2C_USERNAME and B2C_PASSWORD must be injected as CI secrets (never stored in files).
+# COMPLIANCE_SESSION_COOKIE can be pre-set to skip auth (useful in local debugging).
+if [ -z "${COMPLIANCE_SESSION_COOKIE}" ]; then
+  if [ -z "${B2C_USERNAME}" ] || [ -z "${B2C_PASSWORD}" ]; then
+    echo "Error: B2C_USERNAME and B2C_PASSWORD env vars are required." >&2
+    exit 1
+  fi
+  echo "Authenticating with Azure AD B2C..." >&2
+  COMPLIANCE_SESSION_COOKIE=$(node "${JM_HOME}/get-session-cookie.js") || {
+    echo "Error: get-session-cookie.js failed — check B2C credentials." >&2
+    exit 1
+  }
+fi
 
-# Before running the suite, replace 'service-name' with the name/url of the service to test.
-# ENVIRONMENT is set to the name of th environment the test is running in.
-SERVICE_ENDPOINT=${SERVICE_ENDPOINT:-service-name.${ENVIRONMENT}.cdp-int.defra.cloud}
-# PORT is used to set the port of this performance test container
-SERVICE_PORT=${SERVICE_PORT:-443}
-SERVICE_URL_SCHEME=${SERVICE_URL_SCHEME:-https}
+# ── JMeter run ─────────────────────────────────────────────────────────────────
+SCENARIO=${TEST_SCENARIO:-certificates-of-compliance-perf}
+REPORTFILE=${JM_LOGS}/${NOW}-${SCENARIO}.jtl
+LOGFILE=${JM_LOGS}/${NOW}-${SCENARIO}.log
 
-# Run the test suite
-jmeter -n -t ${SCENARIOFILE} -e -l "${REPORTFILE}" -o ${JM_REPORTS} -j ${LOGFILE} -f \
--Jenv="${ENVIRONMENT}" \
--Jdomain="${SERVICE_ENDPOINT}" \
--Jport="${SERVICE_PORT}" \
--Jprotocol="${SERVICE_URL_SCHEME}"
+jmeter -n \
+  -t "${JM_HOME}/scenarios/${SCENARIO}.jmx" \
+  -e -l "${REPORTFILE}" \
+  -o "${JM_REPORTS}" \
+  -j "${LOGFILE}" \
+  -f \
+  -q ${JM_HOME}/user.properties \
+  -JDASHBOARD_HOST="${DASHBOARD_HOST:-waste-regulator-dashboard-fe.${ENVIRONMENT}.cdp-int.defra.cloud}" \
+  -JCOMPLIANCE_HOST="${COMPLIANCE_HOST:-waste-packaging-regulators-fe.${ENVIRONMENT}.cdp-int.defra.cloud}" \
+  -JTHREADS="${THREADS:-10}" \
+  -JRAMP_UP="${RAMP_UP:-30}" \
+  -JDURATION="${DURATION:-120}" \
+  -JRESPONSE_TIME_THRESHOLD_MS="${RESPONSE_TIME_THRESHOLD_MS:-3000}" \
+  -JDASHBOARD_SESSION_COOKIE="${DASHBOARD_SESSION_COOKIE:-}" \
+  -JCOMPLIANCE_SESSION_COOKIE="${COMPLIANCE_SESSION_COOKIE}"
 
-# Publish the results into S3 so they can be displayed in the CDP Portal
+test_exit_code=$?
+
+# ── Publish results to S3 ──────────────────────────────────────────────────────
 if [ -n "$RESULTS_OUTPUT_S3_PATH" ]; then
-  # Copy the CSV report file and the generated report files to the S3 bucket
-   if [ -f "$JM_REPORTS/index.html" ]; then
-      aws --endpoint-url=$S3_ENDPOINT s3 cp "$REPORTFILE" "$RESULTS_OUTPUT_S3_PATH/$REPORTFILE"
-      aws --endpoint-url=$S3_ENDPOINT s3 cp "$JM_REPORTS" "$RESULTS_OUTPUT_S3_PATH" --recursive
-      if [ $? -eq 0 ]; then
-        echo "CSV report file and test results published to $RESULTS_OUTPUT_S3_PATH"
-      fi
-   else
-      echo "$JM_REPORTS/index.html is not found"
-      exit 1
-   fi
+  if [ -f "$JM_REPORTS/index.html" ]; then
+    aws --endpoint-url=$S3_ENDPOINT s3 cp "${JM_REPORTS}" "$RESULTS_OUTPUT_S3_PATH" --recursive
+    echo "Test results published to $RESULTS_OUTPUT_S3_PATH"
+  else
+    echo "$JM_REPORTS/index.html not found — JMeter may have failed before producing a report"
+    exit 1
+  fi
 else
-   echo "RESULTS_OUTPUT_S3_PATH is not set"
-   exit 1
+  echo "RESULTS_OUTPUT_S3_PATH is not set"
+  exit 1
 fi
 
 exit $test_exit_code

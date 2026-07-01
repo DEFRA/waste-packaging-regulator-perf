@@ -13,3 +13,5 @@ coverage
 jmeter.log
 report.csv
 reports/
+results/
+.env
