@@ -2,8 +2,7 @@ FROM defradigital/cdp-perf-test-docker:latest
 
 WORKDIR /opt/perftest
 
-# Install Node.js if not already present in the base image (needed for B2C auth script).
-RUN command -v node > /dev/null 2>&1 || apk add --no-cache nodejs
+RUN apk add --no-cache nodejs
 
 COPY scenarios/ ./scenarios/
 COPY entrypoint.sh .
