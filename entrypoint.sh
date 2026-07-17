@@ -14,6 +14,8 @@ JM_LOGS=${JM_HOME}/logs
 
 mkdir -p ${JM_REPORTS} ${JM_LOGS}
 
+export COMPLIANCE_HOST="${COMPLIANCE_HOST:-waste-packaging-regulators-fe.${ENVIRONMENT}.cdp-int.defra.cloud}"
+
 # ── Authentication ─────────────────────────────────────────────────────────────
 # B2C_USERNAME and B2C_PASSWORD must be injected as CI secrets (never stored in files).
 # COMPLIANCE_SESSION_COOKIE can be pre-set to skip auth (useful in local debugging).
@@ -42,7 +44,7 @@ jmeter -n \
   -f \
   -q ${JM_HOME}/user.properties \
   -JDASHBOARD_HOST="${DASHBOARD_HOST:-waste-regulator-dashboard-fe.${ENVIRONMENT}.cdp-int.defra.cloud}" \
-  -JCOMPLIANCE_HOST="${COMPLIANCE_HOST:-waste-packaging-regulators-fe.${ENVIRONMENT}.cdp-int.defra.cloud}" \
+  -JCOMPLIANCE_HOST="${COMPLIANCE_HOST}" \
   -JTHREADS="${THREADS:-10}" \
   -JRAMP_UP="${RAMP_UP:-30}" \
   -JDURATION="${DURATION:-120}" \
