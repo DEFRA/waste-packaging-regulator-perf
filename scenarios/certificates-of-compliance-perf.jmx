@@ -8,12 +8,12 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="DASHBOARD_HOST" elementType="Argument">
             <stringProp name="Argument.name">DASHBOARD_HOST</stringProp>
-            <stringProp name="Argument.value">${__P(DASHBOARD_HOST,waste-regulator-dashboard-fe.dev.cdp-int.defra.cloud)}</stringProp>
+            <stringProp name="Argument.value">${__P(DASHBOARD_HOST,waste-regulator-dashboard-fe.test.cdp-int.defra.cloud)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="COMPLIANCE_HOST" elementType="Argument">
             <stringProp name="Argument.name">COMPLIANCE_HOST</stringProp>
-            <stringProp name="Argument.value">${__P(COMPLIANCE_HOST,waste-packaging-regulators-fe.dev.cdp-int.defra.cloud)}</stringProp>
+            <stringProp name="Argument.value">${__P(COMPLIANCE_HOST,waste-packaging-regulators-fe.test.cdp-int.defra.cloud)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="DASHBOARD_SESSION_COOKIE" elementType="Argument">
@@ -28,17 +28,17 @@
           </elementProp>
           <elementProp name="THREADS" elementType="Argument">
             <stringProp name="Argument.name">THREADS</stringProp>
-            <stringProp name="Argument.value">${__P(THREADS,10)}</stringProp>
+            <stringProp name="Argument.value">${__P(THREADS,2)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="RAMP_UP" elementType="Argument">
             <stringProp name="Argument.name">RAMP_UP</stringProp>
-            <stringProp name="Argument.value">${__P(RAMP_UP,30)}</stringProp>
+            <stringProp name="Argument.value">${__P(RAMP_UP, 5)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="DURATION" elementType="Argument">
             <stringProp name="Argument.name">DURATION</stringProp>
-            <stringProp name="Argument.value">${__P(DURATION,120)}</stringProp>
+            <stringProp name="Argument.value">${__P(DURATION,30)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="RESPONSE_TIME_THRESHOLD_MS" elementType="Argument">
@@ -61,7 +61,7 @@
         <stringProp name="HTTPSampler.implementation"></stringProp>
       </ConfigTestElement>
       <hashTree/>
-      <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Session Cookies">
+      <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Session Cookies" enabled="true">
         <collectionProp name="CookieManager.cookies">
           <elementProp name="bell-azure-ad-b2c" elementType="Cookie" testname="bell-azure-ad-b2c">
             <stringProp name="Cookie.value">${DASHBOARD_SESSION_COOKIE}</stringProp>
@@ -86,7 +86,7 @@
         <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
       </CookieManager>
       <hashTree/>
-      <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers">
+      <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Headers" enabled="true">
         <collectionProp name="HeaderManager.headers">
           <elementProp name="Accept" elementType="Header">
             <stringProp name="Header.name">Accept</stringProp>
@@ -107,7 +107,7 @@
         </collectionProp>
       </HeaderManager>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Dashboard → Certificates of Compliance">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Dashboard → Certificates of Compliance" enabled="true">
         <stringProp name="ThreadGroup.num_threads">${THREADS}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${RAMP_UP}</stringProp>
         <stringProp name="ThreadGroup.duration">${DURATION}</stringProp>
@@ -192,7 +192,7 @@
         </GaussianRandomTimer>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Compliance Schemes — Submitted (Pending) Tab">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Compliance Schemes — Submitted (Pending) Tab" enabled="true">
         <stringProp name="ThreadGroup.num_threads">${THREADS}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${RAMP_UP}</stringProp>
         <stringProp name="ThreadGroup.duration">${DURATION}</stringProp>
@@ -272,7 +272,7 @@
         </GaussianRandomTimer>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Compliance Schemes — Accepted Tab">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Compliance Schemes — Accepted Tab" enabled="true">
         <stringProp name="ThreadGroup.num_threads">${THREADS}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${RAMP_UP}</stringProp>
         <stringProp name="ThreadGroup.duration">${DURATION}</stringProp>
@@ -425,6 +425,85 @@
             <stringProp name="DurationAssertion.duration">${RESPONSE_TIME_THRESHOLD_MS}</stringProp>
           </DurationAssertion>
           <hashTree/>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract First Pending Submission Link" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+            <stringProp name="RegexExtractor.refname">FirstPendingSubmission</stringProp>
+            <stringProp name="RegexExtractor.regex">href=&quot;\./([^&quot;/]+)/certificates-of-compliance/([^&quot;/]+)&quot;\s+class=&quot;govuk-link govuk-link--no-visited-state&quot;&gt;([^&lt;]+)&lt;</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default">NOT_FOUND</stringProp>
+            <stringProp name="RegexExtractor.match_number">1</stringProp>
+            <boolProp name="RegexExtractor.default_empty_value">false</boolProp>
+          </RegexExtractor>
+          <hashTree/>
+        </hashTree>
+        <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Navigation Think Time" enabled="true">
+          <stringProp name="ConstantTimer.delay">500</stringProp>
+          <stringProp name="RandomTimer.range">200</stringProp>
+        </GaussianRandomTimer>
+        <hashTree/>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If First Pending Submission Found" enabled="true">
+          <stringProp name="IfController.condition">&quot;${FirstPendingSubmission}&quot; != &quot;NOT_FOUND&quot;</stringProp>
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+          <boolProp name="IfController.useExpression">false</boolProp>
+        </IfController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /{organisationId}/certificates-of-compliance/{id} (First Pending Submission)" enabled="true">
+            <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+            <stringProp name="HTTPSampler.path">/${FirstPendingSubmission_g1}/certificates-of-compliance/${FirstPendingSubmission_g2}</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="49586">200</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.custom_message">Submission detail page returned non-200 — session cookie may have expired or submission link was invalid</stringProp>
+              <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Organisation Name" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="-941396804">${FirstPendingSubmission_g3}</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.custom_message">Expected organisation name &quot;${FirstPendingSubmission_g3}&quot; missing from submission detail page</stringProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Accept Button Present" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="414192287">Accept certificate</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.custom_message">Expected &quot;Accept certificate&quot; button missing — submission may not be in a Pending state</stringProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Cancel Button Present" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="-714215151">Cancel certificate</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.custom_message">Expected &quot;Cancel certificate&quot; button missing — submission may not be in a Pending state</stringProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Assert Response Time &lt; ${RESPONSE_TIME_THRESHOLD_MS}ms" enabled="true">
+              <stringProp name="DurationAssertion.duration">${RESPONSE_TIME_THRESHOLD_MS}</stringProp>
+            </DurationAssertion>
+            <hashTree/>
+          </hashTree>
         </hashTree>
         <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Iteration Think Time" enabled="true">
           <stringProp name="ConstantTimer.delay">1000</stringProp>
@@ -432,7 +511,7 @@
         </GaussianRandomTimer>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Direct Producers — Accepted Tab" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Direct Producers — Accepted Tab">
         <stringProp name="ThreadGroup.num_threads">${THREADS}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${RAMP_UP}</stringProp>
         <stringProp name="ThreadGroup.duration">${DURATION}</stringProp>
@@ -446,7 +525,7 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /certificates-of-compliance?type=direct-producers&amp;tab=accepted" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /certificates-of-compliance?type=direct-producers&amp;tab=accepted">
           <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
           <stringProp name="HTTPSampler.path">/certificates-of-compliance</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -460,12 +539,14 @@
                 <stringProp name="Argument.name">type</stringProp>
                 <stringProp name="Argument.value">direct-producers</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
               <elementProp name="tab" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.name">tab</stringProp>
                 <stringProp name="Argument.value">accepted</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
             </collectionProp>
           </elementProp>
@@ -505,6 +586,274 @@
             <stringProp name="DurationAssertion.duration">${RESPONSE_TIME_THRESHOLD_MS}</stringProp>
           </DurationAssertion>
           <hashTree/>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract First Accepted Submission Link" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+            <stringProp name="RegexExtractor.refname">FirstAcceptedSubmission</stringProp>
+            <stringProp name="RegexExtractor.regex">href=&quot;\./([^&quot;/]+)/certificates-of-compliance/([^&quot;/]+)&quot;\s+class=&quot;govuk-link govuk-link--no-visited-state&quot;&gt;([^&lt;]+)&lt;</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default">NOT_FOUND</stringProp>
+            <stringProp name="RegexExtractor.match_number">1</stringProp>
+            <boolProp name="RegexExtractor.default_empty_value">false</boolProp>
+          </RegexExtractor>
+          <hashTree/>
+        </hashTree>
+        <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Navigation Think Time">
+          <stringProp name="ConstantTimer.delay">500</stringProp>
+          <stringProp name="RandomTimer.range">200</stringProp>
+        </GaussianRandomTimer>
+        <hashTree/>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If First Accepted Submission Found">
+          <stringProp name="IfController.condition">&quot;${FirstAcceptedSubmission}&quot; != &quot;NOT_FOUND&quot;</stringProp>
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+          <boolProp name="IfController.useExpression">false</boolProp>
+        </IfController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /{organisationId}/certificates-of-compliance/{id} (First Accepted Submission)" enabled="true">
+            <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+            <stringProp name="HTTPSampler.path">/${FirstAcceptedSubmission_g1}/certificates-of-compliance/${FirstAcceptedSubmission_g2}</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="49586">200</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.custom_message">Submission detail page returned non-200 — session cookie may have expired or submission link was invalid</stringProp>
+              <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Organisation Name" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="-2015242018">${FirstAcceptedSubmission_g3}</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.custom_message">Expected organisation name &quot;${FirstAcceptedSubmission_g3}&quot; missing from submission detail page</stringProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Cancel Button Present" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="-714215151">Cancel certificate</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.custom_message">Expected &quot;Cancel certificate&quot; button missing — submission may not be in an Approved state</stringProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Assert Response Time &lt; ${RESPONSE_TIME_THRESHOLD_MS}ms" enabled="true">
+              <stringProp name="DurationAssertion.duration">${RESPONSE_TIME_THRESHOLD_MS}</stringProp>
+            </DurationAssertion>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Iteration Think Time">
+          <stringProp name="ConstantTimer.delay">1000</stringProp>
+          <stringProp name="RandomTimer.range">300</stringProp>
+        </GaussianRandomTimer>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Direct Producers — Not Submitted Tab (Page 2)" enabled="true">
+        <stringProp name="ThreadGroup.num_threads">${THREADS}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${RAMP_UP}</stringProp>
+        <stringProp name="ThreadGroup.duration">${DURATION}</stringProp>
+        <longProp name="ThreadGroup.delay">0</longProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController">
+          <intProp name="LoopController.loops">-1</intProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /certificates-of-compliance?type=direct-producers&amp;tab=not-submitted" enabled="true">
+          <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+          <stringProp name="HTTPSampler.path">/certificates-of-compliance</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="type" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.name">type</stringProp>
+                <stringProp name="Argument.value">direct-producers</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="tab" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.name">tab</stringProp>
+                <stringProp name="Argument.value">not-submitted</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Direct producers not-submitted tab returned non-200 — session cookie may have expired</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Not Submitted Tab Content" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="1">not submitted</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Expected &quot;not submitted&quot; text missing — may have been redirected to login</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Direct Producer Page" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-1718217866">Percentage met</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Expected &quot;Percentage met&quot; column missing — page may not be showing direct producers</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Assert Response Time &lt; ${RESPONSE_TIME_THRESHOLD_MS}ms" enabled="true">
+            <stringProp name="DurationAssertion.duration">${RESPONSE_TIME_THRESHOLD_MS}</stringProp>
+          </DurationAssertion>
+          <hashTree/>
+        </hashTree>
+        <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Navigation Think Time" enabled="true">
+          <stringProp name="ConstantTimer.delay">500</stringProp>
+          <stringProp name="RandomTimer.range">200</stringProp>
+        </GaussianRandomTimer>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /certificates-of-compliance?type=direct-producers&amp;tab=not-submitted&amp;page=2" enabled="true">
+          <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+          <stringProp name="HTTPSampler.path">/certificates-of-compliance</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="type" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.name">type</stringProp>
+                <stringProp name="Argument.value">direct-producers</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="tab" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.name">tab</stringProp>
+                <stringProp name="Argument.value">not-submitted</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="page" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.name">page</stringProp>
+                <stringProp name="Argument.value">2</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Direct producers not-submitted tab page 2 returned non-200 — session cookie may have expired</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Not Submitted Tab Content" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="1">not submitted</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Expected &quot;not submitted&quot; text missing on page 2 — may have been redirected to login</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Assert Response Time &lt; ${RESPONSE_TIME_THRESHOLD_MS}ms" enabled="true">
+            <stringProp name="DurationAssertion.duration">${RESPONSE_TIME_THRESHOLD_MS}</stringProp>
+          </DurationAssertion>
+          <hashTree/>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract First Not Submitted Item Link (Page 2)" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+            <stringProp name="RegexExtractor.refname">FirstNotSubmittedItem</stringProp>
+            <stringProp name="RegexExtractor.regex">href="\./([^"/]+)/certificates-of-compliance\?obligationYear=([^"/&amp;]+)"\s+class="govuk-link govuk-link--no-visited-state"&gt;([^&lt;]+)&lt;</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default">NOT_FOUND</stringProp>
+            <stringProp name="RegexExtractor.match_number">1</stringProp>
+          </RegexExtractor>
+          <hashTree/>
+        </hashTree>
+        <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Navigation Think Time" enabled="true">
+          <stringProp name="ConstantTimer.delay">500</stringProp>
+          <stringProp name="RandomTimer.range">200</stringProp>
+        </GaussianRandomTimer>
+        <hashTree/>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If First Not Submitted Item Found" enabled="true">
+          <stringProp name="IfController.condition">"${FirstNotSubmittedItem}" != "NOT_FOUND"</stringProp>
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+          <boolProp name="IfController.useExpression">false</boolProp>
+        </IfController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /{organisationId}/certificates-of-compliance?obligationYear={year} (First Not Submitted Item, Page 2)" enabled="true">
+            <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+            <stringProp name="HTTPSampler.path">/${FirstNotSubmittedItem_g1}/certificates-of-compliance?obligationYear=${FirstNotSubmittedItem_g2}</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="49586">200</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.custom_message">Not-submitted item page returned non-200 — session cookie may have expired or link was invalid</stringProp>
+              <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Organisation Name" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="1">${FirstNotSubmittedItem_g3}</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.custom_message">Expected organisation name &quot;${FirstNotSubmittedItem_g3}&quot; missing from not-submitted item page</stringProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Assert Response Time &lt; ${RESPONSE_TIME_THRESHOLD_MS}ms" enabled="true">
+              <stringProp name="DurationAssertion.duration">${RESPONSE_TIME_THRESHOLD_MS}</stringProp>
+            </DurationAssertion>
+            <hashTree/>
+          </hashTree>
         </hashTree>
         <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Iteration Think Time" enabled="true">
           <stringProp name="ConstantTimer.delay">1000</stringProp>
@@ -512,7 +861,7 @@
         </GaussianRandomTimer>
         <hashTree/>
       </hashTree>
-      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report">
+      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="true">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
