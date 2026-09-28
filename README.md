@@ -15,6 +15,37 @@ A successful build results in a Docker container that is capable of running your
 The performance test suites are designed to be run from the CDP Portal.
 The CDP Platform runs test suites in much the same way it runs any other service, it takes a docker image and runs it as an ECS task, automatically provisioning infrastructure as required.
 
+## Local Testing Against `npm run dev`
+
+`user.properties` defaults to the perf-test proxy (see below). To point at each app's local `npm run dev` server instead, override the host properties to `localhost`/`127.0.0.1`, port `3000`/`7154`, `PROTOCOL=http`:
+
+```bash
+DASHBOARD_HOST=127.0.0.1 COMPLIANCE_HOST=localhost \
+PROTOCOL=http DASHBOARD_PORT=7154 COMPLIANCE_PORT=3000 \
+./run-tests.sh
+```
+
+(`DASHBOARD_HOST` and `COMPLIANCE_HOST` must differ, even though both resolve to loopback — JMeter's cookie jar scopes cookies by hostname only, not port, so identically-named "session" cookies from the two unrelated apps would otherwise collide.)
+
+Locally, both apps run with `MOCK_AUTH=true` by default, which bypasses Azure AD B2C entirely — `get-session-cookie.js` detects this and signs in as the fixed mock user without needing `B2C_USERNAME`/`B2C_PASSWORD`. Those credentials are only required when pointing at a real B2C-backed environment (dev, perf-test). Note that the local mock backend (`MOCK_API=true`) is read-only — it accepts accept/cancel submissions without error but never persists the change, so the suite's post-mutation assertions (confirmation banners, updated status) can't pass against it; only the navigation, CSRF and session-handling steps are meaningfully verifiable locally.
+
+## Running Against perf-test
+
+`user.properties` defaults to `COMPLIANCE_HOST=DASHBOARD_HOST=regulators-waste-proxy.perf-test.cdp-int.defra.cloud` (`PROTOCOL=https`, port `443`) — the YARP proxy that fronts both apps in perf-test. With `B2C_USERNAME`/`B2C_PASSWORD` set (in `.env` or the environment):
+
+```bash
+./run-tests.sh
+```
+
+This is a real, shared environment — the accept/cancel thread groups genuinely mutate whichever pending/accepted submissions they find there.
+
+The "Accept a Pending Submission" and "Cancel an Accepted Submission & Search for It" thread groups — for both direct producers and compliance schemes — each run a single mutating journey rather than a sustained load, since every iteration permanently consumes one submission's state:
+
+- **Accept**: finds the first pending submission, opens its accept form, submits it, and checks for the accepted confirmation banner.
+- **Cancel, search & verify**: finds the first accepted submission, cancels it, searches for it by organisation name and checks it now shows a "Cancelled" tag, then clicks through to its detail page (compliance schemes only) and checks the cancellation reason renders there too.
+
+Make sure the target environment has pending and accepted submissions seeded for both direct producers and compliance schemes before running.
+
 ## Local Testing with Docker Compose
 
 You can run the entire performance test stack locally using Docker Compose, including LocalStack, Redis, and the target service. This is useful for development, integration testing, or verifying your test scripts **before committing to `main`**, which will trigger GitHub Actions to build and publish the Docker image.
