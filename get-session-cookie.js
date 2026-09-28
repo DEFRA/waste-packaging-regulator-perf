@@ -1,17 +1,24 @@
 #!/usr/bin/env node
 /**
- * Authenticates against Azure AD B2C and prints the session cookie to stdout.
- * Pipe the output directly into JMeter — the cookie is never written to disk.
+ * Authenticates against the compliance app and prints the session cookie to
+ * stdout. Pipe the output directly into JMeter — the cookie is never written
+ * to disk.
  *
- * Usage:
+ * Against a real Azure AD B2C-backed environment (dev, perf-test, ...) this
+ * performs a full B2C login and requires credentials:
  *   B2C_USERNAME=you@example.com B2C_PASSWORD=secret node get-session-cookie.js
  *
- * Required env vars:
- *   B2C_USERNAME   Azure AD B2C login email
- *   B2C_PASSWORD   Azure AD B2C login password
+ * Against a local `npm run dev` instance (MOCK_AUTH=true), the app bypasses
+ * B2C entirely and signs any visitor in as a fixed mock user, so no
+ * credentials are needed at all — just run:
+ *   node get-session-cookie.js
+ * with user.properties (or PROTOCOL/COMPLIANCE_HOST/COMPLIANCE_PORT env vars)
+ * pointed at localhost.
  *
  * Optional (env var or user.properties):
- *   COMPLIANCE_HOST  target host (default: dev environment)
+ *   PROTOCOL         http or https (default: https)
+ *   COMPLIANCE_HOST  target host (default: perf-test environment)
+ *   COMPLIANCE_PORT  target port (default: 443 for https, 80 for http)
  */
 
 import fs from 'node:fs'
@@ -23,15 +30,26 @@ import { fileURLToPath } from 'node:url'
 const USERNAME = process.env.B2C_USERNAME
 const PASSWORD = process.env.B2C_PASSWORD
 
-if (!USERNAME || !PASSWORD) {
-  console.error('Error: B2C_USERNAME and B2C_PASSWORD environment variables are required.')
-  process.exit(1)
-}
+const PROTOCOL = process.env.PROTOCOL ?? readProperty('PROTOCOL') ?? 'https'
 
 const COMPLIANCE_HOST =
   process.env.COMPLIANCE_HOST ??
   readProperty('COMPLIANCE_HOST') ??
-  'waste-packaging-regulators-fe.dev.cdp-int.defra.cloud'
+  'regulators-waste-proxy.perf-test.cdp-int.defra.cloud'
+
+const COMPLIANCE_PORT = process.env.COMPLIANCE_PORT ?? readProperty('COMPLIANCE_PORT')
+
+const DEFAULT_PORT_FOR_PROTOCOL = { http: '80', https: '443' }
+const COMPLIANCE_ORIGIN =
+  COMPLIANCE_PORT && COMPLIANCE_PORT !== DEFAULT_PORT_FOR_PROTOCOL[PROTOCOL]
+    ? `${PROTOCOL}://${COMPLIANCE_HOST}:${COMPLIANCE_PORT}`
+    : `${PROTOCOL}://${COMPLIANCE_HOST}`
+
+// Local `npm run dev` serves HTTPS with a self-signed cert (certs/localhost-*.pem),
+// which Node's fetch() would otherwise reject as untrusted.
+if (['localhost', '127.0.0.1'].includes(COMPLIANCE_HOST)) {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+}
 
 function readProperty(key) {
   const propsPath = path.join(path.dirname(fileURLToPath(import.meta.url)), 'user.properties')
@@ -132,16 +150,24 @@ function parseSettings(html) {
 
 async function authenticate() {
   const jar = new CookieJar()
-  const startUrl = `https://${COMPLIANCE_HOST}/certificates-of-compliance`
+  const startUrl = `${COMPLIANCE_ORIGIN}/certificates-of-compliance`
 
   console.error(`→ GET ${startUrl}`)
   const { res: loginRes, url: loginUrl } = await followRedirects(jar, startUrl)
 
   const isB2c = loginUrl.includes('b2clogin.com') || loginUrl.includes('microsoftonline.com')
   if (!isB2c) {
+    // Mock auth (local dev) signs the visitor in via a redirect through
+    // /signin-oidc with no credentials required — the app never reaches B2C.
     const cookie = jar.get('bell-azure-ad-b2c') ?? jar.get('session')
     if (cookie) return cookie
-    throw new Error(`Expected B2C redirect but landed at: ${loginUrl}`)
+    throw new Error(`Expected an authenticated session but landed at: ${loginUrl}`)
+  }
+
+  if (!USERNAME || !PASSWORD) {
+    throw new Error(
+      `Landed on a B2C login page (${loginUrl}) but B2C_USERNAME and B2C_PASSWORD are not set.`
+    )
   }
 
   console.error(`→ B2C login page: ${loginUrl}`)

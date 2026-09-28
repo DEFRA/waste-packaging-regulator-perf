@@ -8,12 +8,27 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="DASHBOARD_HOST" elementType="Argument">
             <stringProp name="Argument.name">DASHBOARD_HOST</stringProp>
-            <stringProp name="Argument.value">${__P(DASHBOARD_HOST,waste-regulator-dashboard-fe.perf-test.cdp-int.defra.cloud)}</stringProp>
+            <stringProp name="Argument.value">${__P(DASHBOARD_HOST,regulators-waste-proxy.perf-test.cdp-int.defra.cloud)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="COMPLIANCE_HOST" elementType="Argument">
             <stringProp name="Argument.name">COMPLIANCE_HOST</stringProp>
-            <stringProp name="Argument.value">${__P(COMPLIANCE_HOST,waste-packaging-regulators-fe.perf-test.cdp-int.defra.cloud)}</stringProp>
+            <stringProp name="Argument.value">${__P(COMPLIANCE_HOST,regulators-waste-proxy.perf-test.cdp-int.defra.cloud)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="PROTOCOL" elementType="Argument">
+            <stringProp name="Argument.name">PROTOCOL</stringProp>
+            <stringProp name="Argument.value">${__P(PROTOCOL,https)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="DASHBOARD_PORT" elementType="Argument">
+            <stringProp name="Argument.name">DASHBOARD_PORT</stringProp>
+            <stringProp name="Argument.value">${__P(DASHBOARD_PORT,443)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="COMPLIANCE_PORT" elementType="Argument">
+            <stringProp name="Argument.name">COMPLIANCE_PORT</stringProp>
+            <stringProp name="Argument.value">${__P(COMPLIANCE_PORT,443)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="DASHBOARD_SESSION_COOKIE" elementType="Argument">
@@ -67,19 +82,19 @@
             <stringProp name="Cookie.value">${DASHBOARD_SESSION_COOKIE}</stringProp>
             <stringProp name="Cookie.domain">${DASHBOARD_HOST}</stringProp>
             <stringProp name="Cookie.path">/</stringProp>
-            <boolProp name="Cookie.secure">true</boolProp>
+            <boolProp name="Cookie.secure">false</boolProp>
             <longProp name="Cookie.expires">0</longProp>
             <boolProp name="Cookie.path_specified">true</boolProp>
-            <boolProp name="Cookie.domain_specified">true</boolProp>
+            <boolProp name="Cookie.domain_specified">false</boolProp>
           </elementProp>
           <elementProp name="session" elementType="Cookie" testname="session">
             <stringProp name="Cookie.value">${COMPLIANCE_SESSION_COOKIE}</stringProp>
             <stringProp name="Cookie.domain">${COMPLIANCE_HOST}</stringProp>
             <stringProp name="Cookie.path">/</stringProp>
-            <boolProp name="Cookie.secure">true</boolProp>
+            <boolProp name="Cookie.secure">false</boolProp>
             <longProp name="Cookie.expires">0</longProp>
             <boolProp name="Cookie.path_specified">true</boolProp>
-            <boolProp name="Cookie.domain_specified">true</boolProp>
+            <boolProp name="Cookie.domain_specified">false</boolProp>
           </elementProp>
         </collectionProp>
         <boolProp name="CookieManager.clearEachIteration">false</boolProp>
@@ -123,6 +138,8 @@
       <hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET Dashboard /" enabled="true">
           <stringProp name="HTTPSampler.domain">${DASHBOARD_HOST}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+          <stringProp name="HTTPSampler.port">${DASHBOARD_PORT}</stringProp>
           <stringProp name="HTTPSampler.path">/</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
@@ -151,6 +168,8 @@
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /certificates-of-compliance" enabled="true">
           <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+          <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
           <stringProp name="HTTPSampler.path">/certificates-of-compliance</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
@@ -208,6 +227,8 @@
       <hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /certificates-of-compliance?type=compliance-schemes&amp;tab=pending" enabled="true">
           <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+          <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
           <stringProp name="HTTPSampler.path">/certificates-of-compliance</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
@@ -288,6 +309,8 @@
       <hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /certificates-of-compliance?type=compliance-schemes&amp;tab=accepted" enabled="true">
           <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+          <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
           <stringProp name="HTTPSampler.path">/certificates-of-compliance</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
@@ -368,6 +391,8 @@
       <hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /certificates-of-compliance?type=direct-producers&amp;tab=pending" enabled="true">
           <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+          <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
           <stringProp name="HTTPSampler.path">/certificates-of-compliance</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
@@ -428,7 +453,7 @@
           <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract First Pending Submission Link" enabled="true">
             <stringProp name="RegexExtractor.useHeaders">false</stringProp>
             <stringProp name="RegexExtractor.refname">FirstPendingSubmission</stringProp>
-            <stringProp name="RegexExtractor.regex">href=&quot;\./([^&quot;/]+)/certificates-of-compliance/([^&quot;/]+)&quot;\s+class=&quot;govuk-link govuk-link--no-visited-state&quot;&gt;([^&lt;]+)&lt;</stringProp>
+            <stringProp name="RegexExtractor.regex">href=&quot;/certificates-of-compliance/([^&quot;/]+)/certificate/([^&quot;/?]+)[^&quot;]*&quot;\s+class=&quot;govuk-link govuk-link--no-visited-state&quot;&gt;([^&lt;]+)&lt;</stringProp>
             <stringProp name="RegexExtractor.template">$1$</stringProp>
             <stringProp name="RegexExtractor.default">NOT_FOUND</stringProp>
             <stringProp name="RegexExtractor.match_number">1</stringProp>
@@ -447,9 +472,11 @@
           <boolProp name="IfController.useExpression">false</boolProp>
         </IfController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /{organisationId}/certificates-of-compliance/{id} (First Pending Submission)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /{organisationId}/certificate/{id} (First Pending Submission)" enabled="true">
             <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
-            <stringProp name="HTTPSampler.path">/${FirstPendingSubmission_g1}/certificates-of-compliance/${FirstPendingSubmission_g2}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+            <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+            <stringProp name="HTTPSampler.path">/certificates-of-compliance/${FirstPendingSubmission_g1}/certificate/${FirstPendingSubmission_g2}</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -527,6 +554,8 @@
       <hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /certificates-of-compliance?type=direct-producers&amp;tab=accepted">
           <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+          <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
           <stringProp name="HTTPSampler.path">/certificates-of-compliance</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
@@ -589,7 +618,7 @@
           <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract First Accepted Submission Link" enabled="true">
             <stringProp name="RegexExtractor.useHeaders">false</stringProp>
             <stringProp name="RegexExtractor.refname">FirstAcceptedSubmission</stringProp>
-            <stringProp name="RegexExtractor.regex">href=&quot;\./([^&quot;/]+)/certificates-of-compliance/([^&quot;/]+)&quot;\s+class=&quot;govuk-link govuk-link--no-visited-state&quot;&gt;([^&lt;]+)&lt;</stringProp>
+            <stringProp name="RegexExtractor.regex">href=&quot;/certificates-of-compliance/([^&quot;/]+)/certificate/([^&quot;/?]+)[^&quot;]*&quot;\s+class=&quot;govuk-link govuk-link--no-visited-state&quot;&gt;([^&lt;]+)&lt;</stringProp>
             <stringProp name="RegexExtractor.template">$1$</stringProp>
             <stringProp name="RegexExtractor.default">NOT_FOUND</stringProp>
             <stringProp name="RegexExtractor.match_number">1</stringProp>
@@ -608,9 +637,11 @@
           <boolProp name="IfController.useExpression">false</boolProp>
         </IfController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /{organisationId}/certificates-of-compliance/{id} (First Accepted Submission)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /{organisationId}/certificate/{id} (First Accepted Submission)" enabled="true">
             <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
-            <stringProp name="HTTPSampler.path">/${FirstAcceptedSubmission_g1}/certificates-of-compliance/${FirstAcceptedSubmission_g2}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+            <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+            <stringProp name="HTTPSampler.path">/certificates-of-compliance/${FirstAcceptedSubmission_g1}/certificate/${FirstAcceptedSubmission_g2}</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -678,6 +709,8 @@
       <hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /certificates-of-compliance?type=direct-producers&amp;tab=not-submitted" enabled="true">
           <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+          <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
           <stringProp name="HTTPSampler.path">/certificates-of-compliance</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
@@ -743,6 +776,8 @@
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /certificates-of-compliance?type=direct-producers&amp;tab=not-submitted&amp;page=2" enabled="true">
           <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+          <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
           <stringProp name="HTTPSampler.path">/certificates-of-compliance</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
@@ -799,7 +834,7 @@
           <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract First Not Submitted Item Link (Page 2)" enabled="true">
             <stringProp name="RegexExtractor.useHeaders">false</stringProp>
             <stringProp name="RegexExtractor.refname">FirstNotSubmittedItem</stringProp>
-            <stringProp name="RegexExtractor.regex">href="\./([^"/]+)/certificates-of-compliance\?obligationYear=([^"/&amp;]+)"\s+class="govuk-link govuk-link--no-visited-state"&gt;([^&lt;]+)&lt;</stringProp>
+            <stringProp name="RegexExtractor.regex">href="/certificates-of-compliance/([^"/]+)\?obligationYear=([^"&amp;]+)[^"]*"\s+class="govuk-link govuk-link--no-visited-state"&gt;([^&lt;]+)&lt;</stringProp>
             <stringProp name="RegexExtractor.template">$1$</stringProp>
             <stringProp name="RegexExtractor.default">NOT_FOUND</stringProp>
             <stringProp name="RegexExtractor.match_number">1</stringProp>
@@ -817,9 +852,11 @@
           <boolProp name="IfController.useExpression">false</boolProp>
         </IfController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /{organisationId}/certificates-of-compliance?obligationYear={year} (First Not Submitted Item, Page 2)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /{organisationId}?obligationYear={year} (First Not Submitted Item, Page 2)" enabled="true">
             <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
-            <stringProp name="HTTPSampler.path">/${FirstNotSubmittedItem_g1}/certificates-of-compliance?obligationYear=${FirstNotSubmittedItem_g2}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+            <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+            <stringProp name="HTTPSampler.path">/certificates-of-compliance/${FirstNotSubmittedItem_g1}?obligationYear=${FirstNotSubmittedItem_g2}</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -877,6 +914,8 @@
       <hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /certificates-of-compliance?type=compliance-schemes&amp;tab=not-submitted" enabled="true">
           <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+          <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
           <stringProp name="HTTPSampler.path">/certificates-of-compliance</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
@@ -937,7 +976,7 @@
           <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract First Not Submitted Item Link" enabled="true">
             <stringProp name="RegexExtractor.useHeaders">false</stringProp>
             <stringProp name="RegexExtractor.refname">FirstNotSubmittedScheme</stringProp>
-            <stringProp name="RegexExtractor.regex">href="\./([^"/]+)/certificates-of-compliance\?obligationYear=([^"/&amp;]+)"\s+class="govuk-link govuk-link--no-visited-state"&gt;([^&lt;]+)&lt;</stringProp>
+            <stringProp name="RegexExtractor.regex">href="/certificates-of-compliance/([^"/]+)\?obligationYear=([^"&amp;]+)[^"]*"\s+class="govuk-link govuk-link--no-visited-state"&gt;([^&lt;]+)&lt;</stringProp>
             <stringProp name="RegexExtractor.template">$1$</stringProp>
             <stringProp name="RegexExtractor.default">NOT_FOUND</stringProp>
             <stringProp name="RegexExtractor.match_number">1</stringProp>
@@ -955,9 +994,11 @@
           <boolProp name="IfController.useExpression">false</boolProp>
         </IfController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /{organisationId}/certificates-of-compliance?obligationYear={year} (First Not Submitted Scheme)" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /{organisationId}?obligationYear={year} (First Not Submitted Scheme)" enabled="true">
             <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
-            <stringProp name="HTTPSampler.path">/${FirstNotSubmittedScheme_g1}/certificates-of-compliance?obligationYear=${FirstNotSubmittedScheme_g2}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+            <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+            <stringProp name="HTTPSampler.path">/certificates-of-compliance/${FirstNotSubmittedScheme_g1}?obligationYear=${FirstNotSubmittedScheme_g2}</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -998,6 +1039,1546 @@
           <stringProp name="RandomTimer.range">300</stringProp>
         </GaussianRandomTimer>
         <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Direct Producers — Accept a Pending Submission" enabled="true">
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <longProp name="ThreadGroup.delay">0</longProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController">
+          <intProp name="LoopController.loops">1</intProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /certificates-of-compliance?type=direct-producers&amp;tab=pending" enabled="true">
+          <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+          <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+          <stringProp name="HTTPSampler.path">/certificates-of-compliance</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="type" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.name">type</stringProp>
+                <stringProp name="Argument.value">direct-producers</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="tab" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.name">tab</stringProp>
+                <stringProp name="Argument.value">pending</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Pending tab returned non-200 — session cookie may have expired</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Pending Tab Content" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="635025822">pending submissions</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Expected &quot;pending submissions&quot; text missing — may have been redirected to login</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Assert Response Time &lt; ${RESPONSE_TIME_THRESHOLD_MS}ms" enabled="true">
+            <stringProp name="DurationAssertion.duration">${RESPONSE_TIME_THRESHOLD_MS}</stringProp>
+          </DurationAssertion>
+          <hashTree/>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract First Pending Submission Link" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+            <stringProp name="RegexExtractor.refname">AcceptTarget</stringProp>
+            <stringProp name="RegexExtractor.regex">href=&quot;/certificates-of-compliance/([^&quot;/]+)/certificate/([^&quot;/?]+)[^&quot;]*&quot;\s+class=&quot;govuk-link govuk-link--no-visited-state&quot;&gt;([^&lt;]+)&lt;</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default">NOT_FOUND</stringProp>
+            <stringProp name="RegexExtractor.match_number">1</stringProp>
+            <boolProp name="RegexExtractor.default_empty_value">false</boolProp>
+          </RegexExtractor>
+          <hashTree/>
+        </hashTree>
+        <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Navigation Think Time" enabled="true">
+          <stringProp name="ConstantTimer.delay">500</stringProp>
+          <stringProp name="RandomTimer.range">200</stringProp>
+        </GaussianRandomTimer>
+        <hashTree/>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Pending Submission Found" enabled="true">
+          <stringProp name="IfController.condition">&quot;${AcceptTarget}&quot; != &quot;NOT_FOUND&quot;</stringProp>
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+          <boolProp name="IfController.useExpression">false</boolProp>
+        </IfController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /{organisationId}/certificate/{id} (Accept Target)" enabled="true">
+            <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+            <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+            <stringProp name="HTTPSampler.path">/certificates-of-compliance/${AcceptTarget_g1}/certificate/${AcceptTarget_g2}</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Submission detail page returned non-200 — session cookie may have expired or submission link was invalid</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Organisation Name" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="1">${AcceptTarget_g3}</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Expected organisation name &quot;${AcceptTarget_g3}&quot; missing from submission detail page</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Accept Button Present" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="414192287">Accept certificate</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Expected &quot;Accept certificate&quot; button missing — submission may not be in a Pending state</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+            <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Assert Response Time &lt; ${RESPONSE_TIME_THRESHOLD_MS}ms" enabled="true">
+              <stringProp name="DurationAssertion.duration">${RESPONSE_TIME_THRESHOLD_MS}</stringProp>
+            </DurationAssertion>
+            <hashTree/>
+          </hashTree>
+          <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Navigation Think Time" enabled="true">
+            <stringProp name="ConstantTimer.delay">500</stringProp>
+            <stringProp name="RandomTimer.range">200</stringProp>
+          </GaussianRandomTimer>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /{organisationId}/certificate/{id}/accept" enabled="true">
+            <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+            <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+            <stringProp name="HTTPSampler.path">/certificates-of-compliance/${AcceptTarget_g1}/certificate/${AcceptTarget_g2}/accept</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Accept form returned non-200 — session cookie may have expired or submission was no longer acceptable</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract CSRF Token" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">AcceptCsrf</stringProp>
+              <stringProp name="RegexExtractor.regex">id=&quot;csrf-crumb&quot; type=&quot;hidden&quot; name=&quot;CSRFToken&quot; value=&quot;([^&quot;]+)&quot;</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">NOT_FOUND</stringProp>
+              <stringProp name="RegexExtractor.match_number">1</stringProp>
+              <boolProp name="RegexExtractor.default_empty_value">false</boolProp>
+            </RegexExtractor>
+            <hashTree/>
+          </hashTree>
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If CSRF Token Found" enabled="true">
+            <stringProp name="IfController.condition">&quot;${AcceptCsrf}&quot; != &quot;NOT_FOUND&quot;</stringProp>
+            <boolProp name="IfController.evaluateAll">false</boolProp>
+            <boolProp name="IfController.useExpression">false</boolProp>
+          </IfController>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /{organisationId}/certificate/{id}/accept" enabled="true">
+              <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+              <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+              <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+              <stringProp name="HTTPSampler.path">/certificates-of-compliance/${AcceptTarget_g1}/certificate/${AcceptTarget_g2}/accept</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="confirm-accept" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.name">confirm-accept</stringProp>
+                    <stringProp name="Argument.value">yes</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                  <elementProp name="CSRFToken" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                    <stringProp name="Argument.name">CSRFToken</stringProp>
+                    <stringProp name="Argument.value">${AcceptCsrf}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Redirect After Accept" enabled="true">
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="49586">302</stringProp>
+                </collectionProp>
+                <stringProp name="Assertion.custom_message">Accept submission did not redirect (302) — session cookie may have expired or CSRF token was invalid</stringProp>
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">2</intProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+            <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Post-Mutation Settle Time" enabled="true">
+              <stringProp name="ConstantTimer.delay">300</stringProp>
+              <stringProp name="RandomTimer.range">100</stringProp>
+            </GaussianRandomTimer>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /{organisationId}/certificate/{id} (Confirm Accepted)" enabled="true">
+              <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+              <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+              <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+              <stringProp name="HTTPSampler.path">/certificates-of-compliance/${AcceptTarget_g1}/certificate/${AcceptTarget_g2}</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+                <collectionProp name="Arguments.arguments"/>
+              </elementProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Dedupe Stale Session Cookie" enabled="true">
+                <stringProp name="cacheKey">true</stringProp>
+                <stringProp name="filename"></stringProp>
+                <stringProp name="parameters"></stringProp>
+                <stringProp name="script">def cm = sampler.getCookieManager();
+if (cm != null) {
+  int kept = -1;
+  for (int i = 0; i &lt; cm.getCookieCount(); i++) {
+    if (cm.get(i).getName().equals(&quot;session&quot;)) {
+      if (kept == -1) { kept = i } else { cm.remove(i); i-- }
+    }
+  }
+}</stringProp>
+                <stringProp name="scriptLanguage">groovy</stringProp>
+              </JSR223PreProcessor>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="49586">200</stringProp>
+                </collectionProp>
+                <stringProp name="Assertion.custom_message">Detail page returned non-200 after accepting submission — session cookie may have expired</stringProp>
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">2</intProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Accepted Banner" enabled="true">
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="-1">Certificate accepted</stringProp>
+                </collectionProp>
+                <stringProp name="Assertion.custom_message">Expected &quot;Certificate accepted&quot; confirmation banner missing after accepting submission</stringProp>
+                <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">2</intProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Accepted Banner Text" enabled="true">
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="-1">Certificate has been accepted.</stringProp>
+                </collectionProp>
+                <stringProp name="Assertion.custom_message">Expected accepted confirmation text missing after accepting submission</stringProp>
+                <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">2</intProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Assert Response Time &lt; ${RESPONSE_TIME_THRESHOLD_MS}ms" enabled="true">
+                <stringProp name="DurationAssertion.duration">${RESPONSE_TIME_THRESHOLD_MS}</stringProp>
+              </DurationAssertion>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Direct Producers — Cancel an Accepted Submission &amp; Search for It" enabled="true">
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <longProp name="ThreadGroup.delay">0</longProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController">
+          <intProp name="LoopController.loops">1</intProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /certificates-of-compliance?type=direct-producers&amp;tab=accepted" enabled="true">
+          <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+          <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+          <stringProp name="HTTPSampler.path">/certificates-of-compliance</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="type" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.name">type</stringProp>
+                <stringProp name="Argument.value">direct-producers</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="tab" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.name">tab</stringProp>
+                <stringProp name="Argument.value">accepted</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Accepted tab returned non-200 — session cookie may have expired</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Accepted Tab Content" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-866699346">accepted submissions</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Expected &quot;accepted submissions&quot; text missing — may have been redirected to login</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Assert Response Time &lt; ${RESPONSE_TIME_THRESHOLD_MS}ms" enabled="true">
+            <stringProp name="DurationAssertion.duration">${RESPONSE_TIME_THRESHOLD_MS}</stringProp>
+          </DurationAssertion>
+          <hashTree/>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract First Accepted Submission Link" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+            <stringProp name="RegexExtractor.refname">CancelTarget</stringProp>
+            <stringProp name="RegexExtractor.regex">href=&quot;/certificates-of-compliance/([^&quot;/]+)/certificate/([^&quot;/?]+)[^&quot;]*&quot;\s+class=&quot;govuk-link govuk-link--no-visited-state&quot;&gt;([^&lt;]+)&lt;</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default">NOT_FOUND</stringProp>
+            <stringProp name="RegexExtractor.match_number">1</stringProp>
+            <boolProp name="RegexExtractor.default_empty_value">false</boolProp>
+          </RegexExtractor>
+          <hashTree/>
+        </hashTree>
+        <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Navigation Think Time" enabled="true">
+          <stringProp name="ConstantTimer.delay">500</stringProp>
+          <stringProp name="RandomTimer.range">200</stringProp>
+        </GaussianRandomTimer>
+        <hashTree/>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Accepted Submission Found" enabled="true">
+          <stringProp name="IfController.condition">&quot;${CancelTarget}&quot; != &quot;NOT_FOUND&quot;</stringProp>
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+          <boolProp name="IfController.useExpression">false</boolProp>
+        </IfController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /{organisationId}/certificate/{id} (Cancel Target)" enabled="true">
+            <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+            <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+            <stringProp name="HTTPSampler.path">/certificates-of-compliance/${CancelTarget_g1}/certificate/${CancelTarget_g2}</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Submission detail page returned non-200 — session cookie may have expired or submission link was invalid</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Organisation Name" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="1">${CancelTarget_g3}</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Expected organisation name &quot;${CancelTarget_g3}&quot; missing from submission detail page</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Cancel Button Present" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-714215151">Cancel certificate</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Expected &quot;Cancel certificate&quot; button missing — submission may not be cancellable</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+            <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Assert Response Time &lt; ${RESPONSE_TIME_THRESHOLD_MS}ms" enabled="true">
+              <stringProp name="DurationAssertion.duration">${RESPONSE_TIME_THRESHOLD_MS}</stringProp>
+            </DurationAssertion>
+            <hashTree/>
+          </hashTree>
+          <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Navigation Think Time" enabled="true">
+            <stringProp name="ConstantTimer.delay">500</stringProp>
+            <stringProp name="RandomTimer.range">200</stringProp>
+          </GaussianRandomTimer>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /{organisationId}/certificate/{id}/cancel/reason" enabled="true">
+            <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+            <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+            <stringProp name="HTTPSampler.path">/certificates-of-compliance/${CancelTarget_g1}/certificate/${CancelTarget_g2}/cancel/reason</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Cancel reason form returned non-200 — session cookie may have expired or submission was no longer cancellable</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract CSRF Token" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">CancelReasonCsrf</stringProp>
+              <stringProp name="RegexExtractor.regex">id=&quot;csrf-crumb&quot; type=&quot;hidden&quot; name=&quot;CSRFToken&quot; value=&quot;([^&quot;]+)&quot;</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">NOT_FOUND</stringProp>
+              <stringProp name="RegexExtractor.match_number">1</stringProp>
+              <boolProp name="RegexExtractor.default_empty_value">false</boolProp>
+            </RegexExtractor>
+            <hashTree/>
+          </hashTree>
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If CSRF Token Found" enabled="true">
+            <stringProp name="IfController.condition">&quot;${CancelReasonCsrf}&quot; != &quot;NOT_FOUND&quot;</stringProp>
+            <boolProp name="IfController.evaluateAll">false</boolProp>
+            <boolProp name="IfController.useExpression">false</boolProp>
+          </IfController>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /{organisationId}/certificate/{id}/cancel/reason" enabled="true">
+              <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+              <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+              <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+              <stringProp name="HTTPSampler.path">/certificates-of-compliance/${CancelTarget_g1}/certificate/${CancelTarget_g2}/cancel/reason</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="cancel-reason" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.name">cancel-reason</stringProp>
+                    <stringProp name="Argument.value">obligations-changed</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                  <elementProp name="CSRFToken" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                    <stringProp name="Argument.name">CSRFToken</stringProp>
+                    <stringProp name="Argument.value">${CancelReasonCsrf}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="49586">200</stringProp>
+                </collectionProp>
+                <stringProp name="Assertion.custom_message">Cancel check page returned non-200 — session cookie may have expired or CSRF token was invalid</stringProp>
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">2</intProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Cancel Check Page" enabled="true">
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="1">Confirm and send cancellation email</stringProp>
+                </collectionProp>
+                <stringProp name="Assertion.custom_message">Expected cancel check page heading missing after submitting cancellation reason</stringProp>
+                <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">2</intProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract CSRF Token" enabled="true">
+                <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+                <stringProp name="RegexExtractor.refname">CancelCheckCsrf</stringProp>
+                <stringProp name="RegexExtractor.regex">id=&quot;csrf-crumb&quot; type=&quot;hidden&quot; name=&quot;CSRFToken&quot; value=&quot;([^&quot;]+)&quot;</stringProp>
+                <stringProp name="RegexExtractor.template">$1$</stringProp>
+                <stringProp name="RegexExtractor.default">NOT_FOUND</stringProp>
+                <stringProp name="RegexExtractor.match_number">1</stringProp>
+                <boolProp name="RegexExtractor.default_empty_value">false</boolProp>
+              </RegexExtractor>
+              <hashTree/>
+            </hashTree>
+            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If CSRF Token Found" enabled="true">
+              <stringProp name="IfController.condition">&quot;${CancelCheckCsrf}&quot; != &quot;NOT_FOUND&quot;</stringProp>
+              <boolProp name="IfController.evaluateAll">false</boolProp>
+              <boolProp name="IfController.useExpression">false</boolProp>
+            </IfController>
+            <hashTree>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /{organisationId}/certificate/{id}/cancel" enabled="true">
+                <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+                <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+                <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+                <stringProp name="HTTPSampler.path">/certificates-of-compliance/${CancelTarget_g1}/certificate/${CancelTarget_g2}/cancel</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
+                <stringProp name="HTTPSampler.method">POST</stringProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+                  <collectionProp name="Arguments.arguments">
+                    <elementProp name="cancel-reason" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                      <stringProp name="Argument.name">cancel-reason</stringProp>
+                      <stringProp name="Argument.value">obligations-changed</stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                    <elementProp name="CSRFToken" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                      <stringProp name="Argument.name">CSRFToken</stringProp>
+                      <stringProp name="Argument.value">${CancelCheckCsrf}</stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                  </collectionProp>
+                </elementProp>
+              </HTTPSamplerProxy>
+              <hashTree>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Redirect After Cancel" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="49586">302</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.custom_message">Cancel submission did not redirect (302) — session cookie may have expired or CSRF token was invalid</stringProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <intProp name="Assertion.test_type">2</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+              </hashTree>
+              <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Post-Mutation Settle Time" enabled="true">
+                <stringProp name="ConstantTimer.delay">300</stringProp>
+                <stringProp name="RandomTimer.range">100</stringProp>
+              </GaussianRandomTimer>
+              <hashTree/>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /{organisationId}/certificate/{id} (Confirm Canceled)" enabled="true">
+                <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+                <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+                <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+                <stringProp name="HTTPSampler.path">/certificates-of-compliance/${CancelTarget_g1}/certificate/${CancelTarget_g2}</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <stringProp name="HTTPSampler.method">GET</stringProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+                  <collectionProp name="Arguments.arguments"/>
+                </elementProp>
+              </HTTPSamplerProxy>
+              <hashTree>
+                <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Dedupe Stale Session Cookie" enabled="true">
+                  <stringProp name="cacheKey">true</stringProp>
+                  <stringProp name="filename"></stringProp>
+                  <stringProp name="parameters"></stringProp>
+                  <stringProp name="script">def cm = sampler.getCookieManager();
+if (cm != null) {
+  int kept = -1;
+  for (int i = 0; i &lt; cm.getCookieCount(); i++) {
+    if (cm.get(i).getName().equals(&quot;session&quot;)) {
+      if (kept == -1) { kept = i } else { cm.remove(i); i-- }
+    }
+  }
+}</stringProp>
+                  <stringProp name="scriptLanguage">groovy</stringProp>
+                </JSR223PreProcessor>
+                <hashTree/>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="49586">200</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.custom_message">Detail page returned non-200 after cancelling submission — session cookie may have expired</stringProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <intProp name="Assertion.test_type">2</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Canceled Banner" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="-1">Certificate cancelled</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.custom_message">Expected &quot;Certificate cancelled&quot; confirmation banner missing after cancelling submission</stringProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <intProp name="Assertion.test_type">2</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Canceled Banner Text" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="-1">Certificate has been cancelled and an email sent to the producer.</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.custom_message">Expected cancelled confirmation text missing after cancelling submission</stringProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <intProp name="Assertion.test_type">2</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+                <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Assert Response Time &lt; ${RESPONSE_TIME_THRESHOLD_MS}ms" enabled="true">
+                  <stringProp name="DurationAssertion.duration">${RESPONSE_TIME_THRESHOLD_MS}</stringProp>
+                </DurationAssertion>
+                <hashTree/>
+              </hashTree>
+              <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Navigation Think Time" enabled="true">
+                <stringProp name="ConstantTimer.delay">500</stringProp>
+                <stringProp name="RandomTimer.range">200</stringProp>
+              </GaussianRandomTimer>
+              <hashTree/>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /certificates-of-compliance?type=direct-producers&amp;search={CancelTarget} (Search for Cancelled Submission)" enabled="true">
+                <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+                <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+                <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+                <stringProp name="HTTPSampler.path">/certificates-of-compliance</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <stringProp name="HTTPSampler.method">GET</stringProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+                  <collectionProp name="Arguments.arguments">
+                    <elementProp name="type" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                      <stringProp name="Argument.name">type</stringProp>
+                      <stringProp name="Argument.value">direct-producers</stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                    <elementProp name="search" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                      <stringProp name="Argument.name">search</stringProp>
+                      <stringProp name="Argument.value">${CancelTarget_g3}</stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                  </collectionProp>
+                </elementProp>
+              </HTTPSamplerProxy>
+              <hashTree>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="49586">200</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.custom_message">Search returned non-200 — session cookie may have expired</stringProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <intProp name="Assertion.test_type">2</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Search Results Shown" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="1">result for</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.custom_message">Expected search results text missing — search may not have run</stringProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <intProp name="Assertion.test_type">2</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Cancelled Submission Found" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="1">${CancelTarget_g3}</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.custom_message">Expected the just-cancelled organisation &quot;${CancelTarget_g3}&quot; missing from search results</stringProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <intProp name="Assertion.test_type">2</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Cancelled Status Tag Shown" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="1">govuk-tag--grey">Cancelled</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.custom_message">Expected a &quot;Cancelled&quot; status tag missing from search results after cancelling the submission</stringProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <intProp name="Assertion.test_type">2</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+                <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Assert Response Time &lt; ${RESPONSE_TIME_THRESHOLD_MS}ms" enabled="true">
+                  <stringProp name="DurationAssertion.duration">${RESPONSE_TIME_THRESHOLD_MS}</stringProp>
+                </DurationAssertion>
+                <hashTree/>
+              </hashTree>
+            </hashTree>
+          </hashTree>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Compliance Schemes — Accept a Pending Submission" enabled="true">
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <longProp name="ThreadGroup.delay">0</longProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController">
+          <intProp name="LoopController.loops">1</intProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /certificates-of-compliance?type=compliance-schemes&amp;tab=pending" enabled="true">
+          <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+          <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+          <stringProp name="HTTPSampler.path">/certificates-of-compliance</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="type" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.name">type</stringProp>
+                <stringProp name="Argument.value">compliance-schemes</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="tab" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.name">tab</stringProp>
+                <stringProp name="Argument.value">pending</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Pending tab returned non-200 — session cookie may have expired</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Pending Tab Content" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="635025822">pending submissions</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Expected &quot;pending submissions&quot; text missing — may have been redirected to login</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Assert Response Time &lt; ${RESPONSE_TIME_THRESHOLD_MS}ms" enabled="true">
+            <stringProp name="DurationAssertion.duration">${RESPONSE_TIME_THRESHOLD_MS}</stringProp>
+          </DurationAssertion>
+          <hashTree/>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract First Pending Submission Link" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+            <stringProp name="RegexExtractor.refname">AcceptTargetCS</stringProp>
+            <stringProp name="RegexExtractor.regex">href=&quot;/certificates-of-compliance/([^&quot;/]+)/statement/([^&quot;/?]+)[^&quot;]*&quot;\s+class=&quot;govuk-link govuk-link--no-visited-state&quot;&gt;([^&lt;]+)&lt;</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default">NOT_FOUND</stringProp>
+            <stringProp name="RegexExtractor.match_number">1</stringProp>
+            <boolProp name="RegexExtractor.default_empty_value">false</boolProp>
+          </RegexExtractor>
+          <hashTree/>
+        </hashTree>
+        <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Navigation Think Time" enabled="true">
+          <stringProp name="ConstantTimer.delay">500</stringProp>
+          <stringProp name="RandomTimer.range">200</stringProp>
+        </GaussianRandomTimer>
+        <hashTree/>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Pending Submission Found" enabled="true">
+          <stringProp name="IfController.condition">&quot;${AcceptTargetCS}&quot; != &quot;NOT_FOUND&quot;</stringProp>
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+          <boolProp name="IfController.useExpression">false</boolProp>
+        </IfController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /{organisationId}/statement/{id} (Accept Target)" enabled="true">
+            <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+            <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+            <stringProp name="HTTPSampler.path">/certificates-of-compliance/${AcceptTargetCS_g1}/statement/${AcceptTargetCS_g2}</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Submission detail page returned non-200 — session cookie may have expired or submission link was invalid</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Organisation Name" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="1">${AcceptTargetCS_g3}</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Expected organisation name &quot;${AcceptTargetCS_g3}&quot; missing from submission detail page</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Accept Button Present" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="1">Accept statement</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Expected &quot;Accept statement&quot; button missing — submission may not be in a Pending state</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+            <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Assert Response Time &lt; ${RESPONSE_TIME_THRESHOLD_MS}ms" enabled="true">
+              <stringProp name="DurationAssertion.duration">${RESPONSE_TIME_THRESHOLD_MS}</stringProp>
+            </DurationAssertion>
+            <hashTree/>
+          </hashTree>
+          <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Navigation Think Time" enabled="true">
+            <stringProp name="ConstantTimer.delay">500</stringProp>
+            <stringProp name="RandomTimer.range">200</stringProp>
+          </GaussianRandomTimer>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /{organisationId}/statement/{id}/accept" enabled="true">
+            <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+            <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+            <stringProp name="HTTPSampler.path">/certificates-of-compliance/${AcceptTargetCS_g1}/statement/${AcceptTargetCS_g2}/accept</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Accept form returned non-200 — session cookie may have expired or submission was no longer acceptable</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract CSRF Token" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">AcceptCsrfCS</stringProp>
+              <stringProp name="RegexExtractor.regex">id=&quot;csrf-crumb&quot; type=&quot;hidden&quot; name=&quot;CSRFToken&quot; value=&quot;([^&quot;]+)&quot;</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">NOT_FOUND</stringProp>
+              <stringProp name="RegexExtractor.match_number">1</stringProp>
+              <boolProp name="RegexExtractor.default_empty_value">false</boolProp>
+            </RegexExtractor>
+            <hashTree/>
+          </hashTree>
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If CSRF Token Found" enabled="true">
+            <stringProp name="IfController.condition">&quot;${AcceptCsrfCS}&quot; != &quot;NOT_FOUND&quot;</stringProp>
+            <boolProp name="IfController.evaluateAll">false</boolProp>
+            <boolProp name="IfController.useExpression">false</boolProp>
+          </IfController>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /{organisationId}/statement/{id}/accept" enabled="true">
+              <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+              <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+              <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+              <stringProp name="HTTPSampler.path">/certificates-of-compliance/${AcceptTargetCS_g1}/statement/${AcceptTargetCS_g2}/accept</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="confirm-accept" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.name">confirm-accept</stringProp>
+                    <stringProp name="Argument.value">yes</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                  <elementProp name="CSRFToken" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                    <stringProp name="Argument.name">CSRFToken</stringProp>
+                    <stringProp name="Argument.value">${AcceptCsrfCS}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Redirect After Accept" enabled="true">
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="49586">302</stringProp>
+                </collectionProp>
+                <stringProp name="Assertion.custom_message">Accept submission did not redirect (302) — session cookie may have expired or CSRF token was invalid</stringProp>
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">2</intProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+            <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Post-Mutation Settle Time" enabled="true">
+              <stringProp name="ConstantTimer.delay">300</stringProp>
+              <stringProp name="RandomTimer.range">100</stringProp>
+            </GaussianRandomTimer>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /{organisationId}/statement/{id} (Confirm Accepted)" enabled="true">
+              <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+              <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+              <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+              <stringProp name="HTTPSampler.path">/certificates-of-compliance/${AcceptTargetCS_g1}/statement/${AcceptTargetCS_g2}</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+                <collectionProp name="Arguments.arguments"/>
+              </elementProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Dedupe Stale Session Cookie" enabled="true">
+                <stringProp name="cacheKey">true</stringProp>
+                <stringProp name="filename"></stringProp>
+                <stringProp name="parameters"></stringProp>
+                <stringProp name="script">def cm = sampler.getCookieManager();
+if (cm != null) {
+  int kept = -1;
+  for (int i = 0; i &lt; cm.getCookieCount(); i++) {
+    if (cm.get(i).getName().equals(&quot;session&quot;)) {
+      if (kept == -1) { kept = i } else { cm.remove(i); i-- }
+    }
+  }
+}</stringProp>
+                <stringProp name="scriptLanguage">groovy</stringProp>
+              </JSR223PreProcessor>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="49586">200</stringProp>
+                </collectionProp>
+                <stringProp name="Assertion.custom_message">Detail page returned non-200 after accepting submission — session cookie may have expired</stringProp>
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">2</intProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Accepted Banner" enabled="true">
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="-1">Statement accepted</stringProp>
+                </collectionProp>
+                <stringProp name="Assertion.custom_message">Expected &quot;Statement accepted&quot; confirmation banner missing after accepting submission</stringProp>
+                <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">2</intProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Accepted Banner Text" enabled="true">
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="-1">Statement has been accepted.</stringProp>
+                </collectionProp>
+                <stringProp name="Assertion.custom_message">Expected accepted confirmation text missing after accepting submission</stringProp>
+                <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">2</intProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Assert Response Time &lt; ${RESPONSE_TIME_THRESHOLD_MS}ms" enabled="true">
+                <stringProp name="DurationAssertion.duration">${RESPONSE_TIME_THRESHOLD_MS}</stringProp>
+              </DurationAssertion>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Compliance Schemes — Cancel an Accepted Submission, Search for It &amp; Verify Details" enabled="true">
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <longProp name="ThreadGroup.delay">0</longProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController">
+          <intProp name="LoopController.loops">1</intProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /certificates-of-compliance?type=compliance-schemes&amp;tab=accepted" enabled="true">
+          <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+          <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+          <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+          <stringProp name="HTTPSampler.path">/certificates-of-compliance</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="type" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.name">type</stringProp>
+                <stringProp name="Argument.value">compliance-schemes</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="tab" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.name">tab</stringProp>
+                <stringProp name="Argument.value">accepted</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Accepted tab returned non-200 — session cookie may have expired</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Accepted Tab Content" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-866699346">accepted submissions</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Expected &quot;accepted submissions&quot; text missing — may have been redirected to login</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Assert Response Time &lt; ${RESPONSE_TIME_THRESHOLD_MS}ms" enabled="true">
+            <stringProp name="DurationAssertion.duration">${RESPONSE_TIME_THRESHOLD_MS}</stringProp>
+          </DurationAssertion>
+          <hashTree/>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract First Accepted Submission Link" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+            <stringProp name="RegexExtractor.refname">CancelTargetCS</stringProp>
+            <stringProp name="RegexExtractor.regex">href=&quot;/certificates-of-compliance/([^&quot;/]+)/statement/([^&quot;/?]+)[^&quot;]*&quot;\s+class=&quot;govuk-link govuk-link--no-visited-state&quot;&gt;([^&lt;]+)&lt;</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default">NOT_FOUND</stringProp>
+            <stringProp name="RegexExtractor.match_number">1</stringProp>
+            <boolProp name="RegexExtractor.default_empty_value">false</boolProp>
+          </RegexExtractor>
+          <hashTree/>
+        </hashTree>
+        <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Navigation Think Time" enabled="true">
+          <stringProp name="ConstantTimer.delay">500</stringProp>
+          <stringProp name="RandomTimer.range">200</stringProp>
+        </GaussianRandomTimer>
+        <hashTree/>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Accepted Submission Found" enabled="true">
+          <stringProp name="IfController.condition">&quot;${CancelTargetCS}&quot; != &quot;NOT_FOUND&quot;</stringProp>
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+          <boolProp name="IfController.useExpression">false</boolProp>
+        </IfController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /{organisationId}/statement/{id} (Cancel Target)" enabled="true">
+            <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+            <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+            <stringProp name="HTTPSampler.path">/certificates-of-compliance/${CancelTargetCS_g1}/statement/${CancelTargetCS_g2}</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Submission detail page returned non-200 — session cookie may have expired or submission link was invalid</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Organisation Name" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="1">${CancelTargetCS_g3}</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Expected organisation name &quot;${CancelTargetCS_g3}&quot; missing from submission detail page</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Cancel Button Present" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="1">Cancel statement</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Expected &quot;Cancel statement&quot; button missing — submission may not be cancellable</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+            <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Assert Response Time &lt; ${RESPONSE_TIME_THRESHOLD_MS}ms" enabled="true">
+              <stringProp name="DurationAssertion.duration">${RESPONSE_TIME_THRESHOLD_MS}</stringProp>
+            </DurationAssertion>
+            <hashTree/>
+          </hashTree>
+          <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Navigation Think Time" enabled="true">
+            <stringProp name="ConstantTimer.delay">500</stringProp>
+            <stringProp name="RandomTimer.range">200</stringProp>
+          </GaussianRandomTimer>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /{organisationId}/statement/{id}/cancel/reason" enabled="true">
+            <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+            <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+            <stringProp name="HTTPSampler.path">/certificates-of-compliance/${CancelTargetCS_g1}/statement/${CancelTargetCS_g2}/cancel/reason</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message">Cancel reason form returned non-200 — session cookie may have expired or submission was no longer cancellable</stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract CSRF Token" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">CancelReasonCsrfCS</stringProp>
+              <stringProp name="RegexExtractor.regex">id=&quot;csrf-crumb&quot; type=&quot;hidden&quot; name=&quot;CSRFToken&quot; value=&quot;([^&quot;]+)&quot;</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default">NOT_FOUND</stringProp>
+              <stringProp name="RegexExtractor.match_number">1</stringProp>
+              <boolProp name="RegexExtractor.default_empty_value">false</boolProp>
+            </RegexExtractor>
+            <hashTree/>
+          </hashTree>
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If CSRF Token Found" enabled="true">
+            <stringProp name="IfController.condition">&quot;${CancelReasonCsrfCS}&quot; != &quot;NOT_FOUND&quot;</stringProp>
+            <boolProp name="IfController.evaluateAll">false</boolProp>
+            <boolProp name="IfController.useExpression">false</boolProp>
+          </IfController>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /{organisationId}/statement/{id}/cancel/reason" enabled="true">
+              <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+              <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+              <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+              <stringProp name="HTTPSampler.path">/certificates-of-compliance/${CancelTargetCS_g1}/statement/${CancelTargetCS_g2}/cancel/reason</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="cancel-reason" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.name">cancel-reason</stringProp>
+                    <stringProp name="Argument.value">obligations-changed</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                  <elementProp name="CSRFToken" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                    <stringProp name="Argument.name">CSRFToken</stringProp>
+                    <stringProp name="Argument.value">${CancelReasonCsrfCS}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="49586">200</stringProp>
+                </collectionProp>
+                <stringProp name="Assertion.custom_message">Cancel check page returned non-200 — session cookie may have expired or CSRF token was invalid</stringProp>
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">2</intProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Cancel Check Page" enabled="true">
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="1">Confirm and send cancellation email</stringProp>
+                </collectionProp>
+                <stringProp name="Assertion.custom_message">Expected cancel check page heading missing after submitting cancellation reason</stringProp>
+                <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">2</intProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract CSRF Token" enabled="true">
+                <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+                <stringProp name="RegexExtractor.refname">CancelCheckCsrfCS</stringProp>
+                <stringProp name="RegexExtractor.regex">id=&quot;csrf-crumb&quot; type=&quot;hidden&quot; name=&quot;CSRFToken&quot; value=&quot;([^&quot;]+)&quot;</stringProp>
+                <stringProp name="RegexExtractor.template">$1$</stringProp>
+                <stringProp name="RegexExtractor.default">NOT_FOUND</stringProp>
+                <stringProp name="RegexExtractor.match_number">1</stringProp>
+                <boolProp name="RegexExtractor.default_empty_value">false</boolProp>
+              </RegexExtractor>
+              <hashTree/>
+            </hashTree>
+            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If CSRF Token Found" enabled="true">
+              <stringProp name="IfController.condition">&quot;${CancelCheckCsrfCS}&quot; != &quot;NOT_FOUND&quot;</stringProp>
+              <boolProp name="IfController.evaluateAll">false</boolProp>
+              <boolProp name="IfController.useExpression">false</boolProp>
+            </IfController>
+            <hashTree>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /{organisationId}/statement/{id}/cancel" enabled="true">
+                <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+                <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+                <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+                <stringProp name="HTTPSampler.path">/certificates-of-compliance/${CancelTargetCS_g1}/statement/${CancelTargetCS_g2}/cancel</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
+                <stringProp name="HTTPSampler.method">POST</stringProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+                  <collectionProp name="Arguments.arguments">
+                    <elementProp name="cancel-reason" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                      <stringProp name="Argument.name">cancel-reason</stringProp>
+                      <stringProp name="Argument.value">obligations-changed</stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                    <elementProp name="CSRFToken" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                      <stringProp name="Argument.name">CSRFToken</stringProp>
+                      <stringProp name="Argument.value">${CancelCheckCsrfCS}</stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                  </collectionProp>
+                </elementProp>
+              </HTTPSamplerProxy>
+              <hashTree>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Redirect After Cancel" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="49586">302</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.custom_message">Cancel submission did not redirect (302) — session cookie may have expired or CSRF token was invalid</stringProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <intProp name="Assertion.test_type">2</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+              </hashTree>
+              <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Post-Mutation Settle Time" enabled="true">
+                <stringProp name="ConstantTimer.delay">300</stringProp>
+                <stringProp name="RandomTimer.range">100</stringProp>
+              </GaussianRandomTimer>
+              <hashTree/>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /{organisationId}/statement/{id} (Confirm Canceled)" enabled="true">
+                <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+                <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+                <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+                <stringProp name="HTTPSampler.path">/certificates-of-compliance/${CancelTargetCS_g1}/statement/${CancelTargetCS_g2}</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <stringProp name="HTTPSampler.method">GET</stringProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+                  <collectionProp name="Arguments.arguments"/>
+                </elementProp>
+              </HTTPSamplerProxy>
+              <hashTree>
+                <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Dedupe Stale Session Cookie" enabled="true">
+                  <stringProp name="cacheKey">true</stringProp>
+                  <stringProp name="filename"></stringProp>
+                  <stringProp name="parameters"></stringProp>
+                  <stringProp name="script">def cm = sampler.getCookieManager();
+if (cm != null) {
+  int kept = -1;
+  for (int i = 0; i &lt; cm.getCookieCount(); i++) {
+    if (cm.get(i).getName().equals(&quot;session&quot;)) {
+      if (kept == -1) { kept = i } else { cm.remove(i); i-- }
+    }
+  }
+}</stringProp>
+                  <stringProp name="scriptLanguage">groovy</stringProp>
+                </JSR223PreProcessor>
+                <hashTree/>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="49586">200</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.custom_message">Detail page returned non-200 after cancelling submission — session cookie may have expired</stringProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <intProp name="Assertion.test_type">2</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Canceled Banner" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="-1">Statement cancelled</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.custom_message">Expected &quot;Statement cancelled&quot; confirmation banner missing after cancelling submission</stringProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <intProp name="Assertion.test_type">2</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Canceled Banner Text" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="-1">Statement has been cancelled and an email sent to the compliance scheme.</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.custom_message">Expected cancelled confirmation text missing after cancelling submission</stringProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <intProp name="Assertion.test_type">2</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+                <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Assert Response Time &lt; ${RESPONSE_TIME_THRESHOLD_MS}ms" enabled="true">
+                  <stringProp name="DurationAssertion.duration">${RESPONSE_TIME_THRESHOLD_MS}</stringProp>
+                </DurationAssertion>
+                <hashTree/>
+              </hashTree>
+              <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Navigation Think Time" enabled="true">
+                <stringProp name="ConstantTimer.delay">500</stringProp>
+                <stringProp name="RandomTimer.range">200</stringProp>
+              </GaussianRandomTimer>
+              <hashTree/>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /certificates-of-compliance?type=compliance-schemes&amp;search={CancelTargetCS} (Search for Cancelled Submission)" enabled="true">
+                <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+                <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+                <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+                <stringProp name="HTTPSampler.path">/certificates-of-compliance</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <stringProp name="HTTPSampler.method">GET</stringProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+                  <collectionProp name="Arguments.arguments">
+                    <elementProp name="type" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                      <stringProp name="Argument.name">type</stringProp>
+                      <stringProp name="Argument.value">compliance-schemes</stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                    <elementProp name="search" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                      <stringProp name="Argument.name">search</stringProp>
+                      <stringProp name="Argument.value">${CancelTargetCS_g3}</stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                  </collectionProp>
+                </elementProp>
+              </HTTPSamplerProxy>
+              <hashTree>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="49586">200</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.custom_message">Search returned non-200 — session cookie may have expired</stringProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <intProp name="Assertion.test_type">2</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Search Results Shown" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="1">result for</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.custom_message">Expected search results text missing — search may not have run</stringProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <intProp name="Assertion.test_type">2</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Cancelled Submission Found" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="1">${CancelTargetCS_g3}</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.custom_message">Expected the just-cancelled organisation &quot;${CancelTargetCS_g3}&quot; missing from search results</stringProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <intProp name="Assertion.test_type">2</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Cancelled Status Tag Shown" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="1">govuk-tag--grey">Cancelled</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.custom_message">Expected a &quot;Cancelled&quot; status tag missing from search results after cancelling the submission</stringProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <intProp name="Assertion.test_type">2</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Search Result Links To Cancelled Submission" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="1">href="/certificates-of-compliance/${CancelTargetCS_g1}/statement/${CancelTargetCS_g2}</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.custom_message">Expected the search result row to link to the cancelled submission&#39;s own detail page</stringProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <intProp name="Assertion.test_type">2</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+                <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Assert Response Time &lt; ${RESPONSE_TIME_THRESHOLD_MS}ms" enabled="true">
+                  <stringProp name="DurationAssertion.duration">${RESPONSE_TIME_THRESHOLD_MS}</stringProp>
+                </DurationAssertion>
+                <hashTree/>
+              </hashTree>
+              <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Navigation Think Time" enabled="true">
+                <stringProp name="ConstantTimer.delay">500</stringProp>
+                <stringProp name="RandomTimer.range">200</stringProp>
+              </GaussianRandomTimer>
+              <hashTree/>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /{organisationId}/statement/{id} (Click Search Result)" enabled="true">
+                <stringProp name="HTTPSampler.domain">${COMPLIANCE_HOST}</stringProp>
+                <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
+                <stringProp name="HTTPSampler.port">${COMPLIANCE_PORT}</stringProp>
+                <stringProp name="HTTPSampler.path">/certificates-of-compliance/${CancelTargetCS_g1}/statement/${CancelTargetCS_g2}</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <stringProp name="HTTPSampler.method">GET</stringProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+                  <collectionProp name="Arguments.arguments"/>
+                </elementProp>
+              </HTTPSamplerProxy>
+              <hashTree>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert 200 OK" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="49586">200</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.custom_message">Submission detail page returned non-200 after clicking the search result</stringProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <intProp name="Assertion.test_type">2</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Organisation Name" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="1">${CancelTargetCS_g3}</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.custom_message">Expected organisation name &quot;${CancelTargetCS_g3}&quot; missing from the detail page reached via search</stringProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <intProp name="Assertion.test_type">2</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Cancelled Status Shown" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="1">govuk-tag--grey govuk-!-font-size-16">Cancelled</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.custom_message">Expected the &quot;Cancelled&quot; status tag missing from the detail page reached via search</stringProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <intProp name="Assertion.test_type">2</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Reason For Cancellation Shown" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="1">Reason for cancellation</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.custom_message">Expected &quot;Reason for cancellation&quot; missing from the detail page reached via search</stringProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <intProp name="Assertion.test_type">2</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Cancellation Reason Text Shown" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="1">Recycling obligations changed</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.custom_message">Expected the submitted cancellation reason text missing from the detail page reached via search</stringProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                  <boolProp name="Assertion.assume_success">false</boolProp>
+                  <intProp name="Assertion.test_type">2</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+                <DurationAssertion guiclass="DurationAssertionGui" testclass="DurationAssertion" testname="Assert Response Time &lt; ${RESPONSE_TIME_THRESHOLD_MS}ms" enabled="true">
+                  <stringProp name="DurationAssertion.duration">${RESPONSE_TIME_THRESHOLD_MS}</stringProp>
+                </DurationAssertion>
+                <hashTree/>
+              </hashTree>
+            </hashTree>
+          </hashTree>
+        </hashTree>
       </hashTree>
       <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="true">
         <boolProp name="ResultCollector.error_logging">false</boolProp>

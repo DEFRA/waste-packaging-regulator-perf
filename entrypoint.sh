@@ -14,7 +14,9 @@ JM_LOGS=${JM_HOME}/logs
 
 mkdir -p ${JM_REPORTS} ${JM_LOGS}
 
-export COMPLIANCE_HOST="${COMPLIANCE_HOST:-waste-packaging-regulators-fe.${ENVIRONMENT}.cdp-int.defra.cloud}"
+export COMPLIANCE_HOST="${COMPLIANCE_HOST:-regulators-waste-proxy.${ENVIRONMENT}.cdp-int.defra.cloud}"
+export PROTOCOL="${PROTOCOL:-https}"
+export COMPLIANCE_PORT="${COMPLIANCE_PORT:-443}"
 
 # ── Authentication ─────────────────────────────────────────────────────────────
 # B2C_USERNAME and B2C_PASSWORD must be injected as CI secrets (never stored in files).
@@ -43,8 +45,11 @@ jmeter -n \
   -j "${LOGFILE}" \
   -f \
   -q ${JM_HOME}/user.properties \
-  -JDASHBOARD_HOST="${DASHBOARD_HOST:-waste-regulator-dashboard-fe.${ENVIRONMENT}.cdp-int.defra.cloud}" \
+  -JDASHBOARD_HOST="${DASHBOARD_HOST:-regulators-waste-proxy.${ENVIRONMENT}.cdp-int.defra.cloud}" \
   -JCOMPLIANCE_HOST="${COMPLIANCE_HOST}" \
+  -JPROTOCOL="${PROTOCOL:-https}" \
+  -JDASHBOARD_PORT="${DASHBOARD_PORT:-443}" \
+  -JCOMPLIANCE_PORT="${COMPLIANCE_PORT:-443}" \
   -JTHREADS="${THREADS:-10}" \
   -JRAMP_UP="${RAMP_UP:-30}" \
   -JDURATION="${DURATION:-120}" \
